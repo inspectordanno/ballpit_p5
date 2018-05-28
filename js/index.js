@@ -9,6 +9,7 @@ let startButton;
 let greenBall;
 let orangeBall;
 let purpleBall;
+let balls = [];
 
 //make ball class
 class Ball {
@@ -89,7 +90,7 @@ function setup() {
 
     function makeBallwhenClicked(ball, buttonID, color) {
       select(buttonID).mouseClicked(function(){
-        ball = new Ball(color);
+        balls.push(new Ball(color));
       });
     }
 
@@ -97,9 +98,16 @@ function setup() {
     makeBallwhenClicked(orangeBall, '#orangeButton', themeOrange);
     makeBallwhenClicked(purpleBall, '#purpleButton', themePurple);
 
+
+
 } //end setup
 
 function draw() { //trying to get ball to show and move
-  greenBall.show();
-  greenBall.move();
+
+  background(180);
+
+  balls.forEach(function(i){
+    i.show();
+    i.move();
+  });
 }
