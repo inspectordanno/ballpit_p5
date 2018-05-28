@@ -103,6 +103,46 @@ function setup() {
         balls = [];
       });
 
+    //making counters
+
+    function makecounter(counterWidth, counterClass, counterID) {
+      let counter = createDiv();
+      counter.style('font-size', '1em')
+      .position(counterWidth * windowWidth, .05)
+      .class(counterClass)
+      .id(counterID);
+    }
+
+    //update each counter by one every time it is clicked
+
+    makecounter(.25, 'counter', 'greenBallCounter');
+    makecounter(.45, 'counter', 'orangeBallCounter');
+    makecounter(.65, 'counter', 'purpleBallCounter');
+
+    function updateCounter(buttonID, counterID) {
+      let counterNum = 0;
+      select(buttonID).mouseClicked(function(){
+        counterNum +=1;
+        select(counterID)
+        .style('display', 'inline')
+        .html(counterNum);
+      })
+      select('#resetButton').mouseClicked(function(){
+        console.log('hello');
+        counterNum = 0;
+        select(counterID)
+          .html(counterNum)
+          .style('display', 'none');
+      })
+    }
+
+    updateCounter('#greenButton', '#greenBallCounter');
+    updateCounter('#orangeButton', '#orangeBallCounter');
+    updateCounter('#purpleButton', '#purpleBallCounter');
+
+
+
+
 
 
 
