@@ -2,12 +2,39 @@ const themeGreen = 'rgba(58,180,169,1)';
 const themeOrange = 'rgba(253,121,29,0.7861519607843137)';
 const themePurple = 'rgba(128,69,252,1)'
 
-var greenBallButton;
-var orangeBallButton;
-var purpleBallButton;
-var startButton;
+let greenBallButton;
+let orangeBallButton;
+let purpleBallButton;
+let startButton;
+let greenBall;
+let orangeBall;
+let purpleBall;
+
+//make ball class
+class Ball {
+  constructor(fill) {
+    this.x = random(width);
+    this.y = random(height);
+    this.r = random(2, 20);
+    this.fill = fill;
+  }
+
+
+  move() {
+  this.x = this.x + random(-2, 2);
+  this.y = this.y + random(-2, 2);
+  }
+
+  show() {
+  stroke(255);
+  strokeWeight(4);
+  fill(this.fill);
+  ellipse(this.x, this.y, this.r);
+  }
+}
 
 function setup() {
+
   //designing background div
   const backgroundDiv = createDiv();
   backgroundDiv.style('width', windowWidth + 'px')
@@ -37,19 +64,18 @@ function setup() {
       .style('display', 'inline-block')
       .style('font-size', '16px')
       .id(id);
-
   }
 
   buttonMaker(greenBallButton, themeGreen, 'Green Ball', .25, 'greenButton');
   buttonMaker(orangeBallButton, themeOrange, 'Orange Ball', .45,'orangeButton');
   buttonMaker(purpleBallButton, themePurple, 'Purple Ball', .65, 'purpleButton');
-  buttonMaker(startButton, 'gray', 'Start/Reset', .5, 'startButton');
+  buttonMaker(startButton, 'gray', 'Reset', .5, 'startButton');
 
   select('#startButton').position(.8 * windowWidth, .5 * windowHeight);
 
   //creating titleDiv
 
-  var titleDiv = createDiv()
+  const titleDiv = createDiv()
     .style('font-size', '3em')
     .style('text-align', 'center')
     .style('background', `linear-gradient(270deg, ${themeOrange} 0%, ${themePurple} 100%)`)
@@ -59,9 +85,21 @@ function setup() {
     .html('Ball <br /> Pit')
     .id('titleDiv');
 
+    //instantiating new ball when analogous button is clicked
 
-}
+    function makeBallwhenClicked(ball, buttonID, color) {
+      select(buttonID).mouseClicked(function(){
+        ball = new Ball(color);
+      });
+    }
 
-function draw() {
+    makeBallwhenClicked(greenBall, '#greenButton', themeGreen);
+    makeBallwhenClicked(orangeBall, '#orangeButton', themeOrange);
+    makeBallwhenClicked(purpleBall, '#purpleButton', themePurple);
 
+} //end setup
+
+function draw() { //trying to get ball to show and move
+  greenBall.show();
+  greenBall.move();
 }
