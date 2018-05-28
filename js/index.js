@@ -5,7 +5,7 @@ const themePurple = 'rgba(128,69,252,1)'
 let greenBallButton;
 let orangeBallButton;
 let purpleBallButton;
-let startButton;
+let resetButton;
 let greenBall;
 let orangeBall;
 let purpleBall;
@@ -70,9 +70,9 @@ function setup() {
   buttonMaker(greenBallButton, themeGreen, 'Green Ball', .25, 'greenButton');
   buttonMaker(orangeBallButton, themeOrange, 'Orange Ball', .45,'orangeButton');
   buttonMaker(purpleBallButton, themePurple, 'Purple Ball', .65, 'purpleButton');
-  buttonMaker(startButton, 'gray', 'Reset', .5, 'startButton');
+  buttonMaker(resetButton, 'gray', 'Reset', .5, 'resetButton');
 
-  select('#startButton').position(.8 * windowWidth, .5 * windowHeight);
+  select('#resetButton').position(.8 * windowWidth, .5 * windowHeight);
 
   //creating titleDiv
 
@@ -97,6 +97,13 @@ function setup() {
     makeBallwhenClicked(greenBall, '#greenButton', themeGreen);
     makeBallwhenClicked(orangeBall, '#orangeButton', themeOrange);
     makeBallwhenClicked(purpleBall, '#purpleButton', themePurple);
+
+    //when reset button is clicked, array of balls objects is set back to empty
+    select('#resetButton').mouseClicked(function(){
+        balls = [];
+      });
+
+
 
 
 
