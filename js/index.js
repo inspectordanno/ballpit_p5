@@ -1,6 +1,10 @@
+//setting color theme constants
+
 const themeGreen = 'rgba(58,180,169,1)';
 const themeOrange = 'rgba(253,121,29,0.7861519607843137)';
 const themePurple = 'rgba(128,69,252,1)'
+
+//delcaring buttons, balls, and the array where the balls will be stored
 
 let greenBallButton;
 let orangeBallButton;
@@ -16,23 +20,48 @@ class Ball {
   constructor(fill) {
     this.x = random(width);
     this.y = random(height);
-    this.r = random(2, 20);
+    this.r = random(5, 25);
     this.fill = fill;
+    this.xVel = random(-3, 3);
+    this.yVel = random(-3, 3);
   }
 
+  //check to see if a ball has hit a wall
 
   move() {
-  this.x = this.x + random(-2, 2);
-  this.y = this.y + random(-2, 2);
+  //this.xVel += xVel;
+  this.x = this.x + this.xVel;
+  this.y = this.y + this.yVel;
+  this.checkWalls();
   }
+
+  checkBalls(){
+    //for each for ball array checking distance
+  }
+
+  checkWalls() {
+   //check for walls
+   if(this.x < 0 || this.x > width) {
+    this.xVel *= -1;
+    //this.x = width-this.r;
+    console.log(this.xVel);
+   }
+   if(this.y < 0 || this.y > height) {
+    this.yVel *= -1;
+    console.log("hit y wall");
+   }
+ }
+
+ //
 
   show() {
   stroke(255);
-  strokeWeight(4);
+  strokeWeight(1);
   fill(this.fill);
   ellipse(this.x, this.y, this.r);
   }
-}
+
+} //end class declaration
 
 function setup() {
 
@@ -108,16 +137,16 @@ function setup() {
     function makecounter(counterWidth, counterClass, counterID) {
       let counter = createDiv();
       counter.style('font-size', '1em')
-      .position(counterWidth * windowWidth, .05)
+      .position(counterWidth * windowWidth, 25)
       .class(counterClass)
       .id(counterID);
     }
 
     //update each counter by one every time it is clicked
 
-    makecounter(.25, 'counter', 'greenBallCounter');
-    makecounter(.45, 'counter', 'orangeBallCounter');
-    makecounter(.65, 'counter', 'purpleBallCounter');
+    makecounter(.28, 'counter', 'greenBallCounter');
+    makecounter(.48, 'counter', 'orangeBallCounter');
+    makecounter(.68, 'counter', 'purpleBallCounter');
 
     function updateCounter(buttonID, counterID) {
       let counterNum = 0;
@@ -139,13 +168,6 @@ function setup() {
     updateCounter('#greenButton', '#greenBallCounter');
     updateCounter('#orangeButton', '#orangeBallCounter');
     updateCounter('#purpleButton', '#purpleBallCounter');
-
-
-
-
-
-
-
 
 } //end setup
 
