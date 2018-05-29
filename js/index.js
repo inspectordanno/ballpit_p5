@@ -4,7 +4,7 @@ const themeGreen = 'rgba(58,180,169,1)';
 const themeOrange = 'rgba(253,121,29,0.7861519607843137)';
 const themePurple = 'rgba(128,69,252,1)'
 
-//delcaring buttons, balls, and the array where the balls will be stored
+//declaring buttons, balls, and the array where the balls will be stored
 
 let greenBallButton;
 let orangeBallButton;
@@ -33,10 +33,35 @@ class Ball {
   this.x = this.x + this.xVel;
   this.y = this.y + this.yVel;
   this.checkWalls();
+  this.checkBalls();
   }
 
-  checkBalls(){
-    //for each for ball array checking distance
+  checkBalls() {
+    // let otherBalls = balls.filter(function(i){
+    // !this;
+    // });
+    // console.log(this);
+
+    for(this.i = 0; this.i < balls.length; this.i++){
+      if(this !== balls[this.i]){
+      if( this.r/2+ balls[this.i].r/2 > dist(this.x, this.y, balls[this.i].x, balls[this.i].y)){
+        console.log("hit");
+
+      }
+    }
+    }
+
+    // balls.forEach(function(i){
+    //   console.log(this);
+      // if (i === this && balls.length > 1) {
+      //
+      // } else {
+      //
+      //  if( this.r/2+ i.r/2 > dist(this.x, this.y, i.x, i.y)){
+        //   console.log('hit');
+        // }
+      // }
+    // });
   }
 
   checkWalls() {
@@ -111,6 +136,8 @@ function setup() {
     .style('background', `linear-gradient(270deg, ${themeOrange} 0%, ${themePurple} 100%)`)
     .style('-webkit-background-clip', 'text')
     .style('-webkit-text-fill-color', 'transparent')
+    .style('-webkit-text-stroke', '1px black')
+    .style('-moz-text-stroke', '1px black')
     .position(.05 * windowWidth, .5 * windowHeight)
     .html('Ball <br /> Pit')
     .id('titleDiv');
@@ -134,19 +161,22 @@ function setup() {
 
     //making counters
 
-    function makecounter(counterWidth, counterClass, counterID) {
+    function makecounter(counterWidth, counterClass, counterID, color) {
       let counter = createDiv();
-      counter.style('font-size', '1em')
+      counter.style('font-size', '1.5em')
       .position(counterWidth * windowWidth, 25)
       .class(counterClass)
-      .id(counterID);
+      .id(counterID)
+      .style('color', color)
+      .style('-webkit-text-stroke', '1px black')
+      .style('-moz-text-stroke', '1px black');
     }
 
     //update each counter by one every time it is clicked
 
-    makecounter(.28, 'counter', 'greenBallCounter');
-    makecounter(.48, 'counter', 'orangeBallCounter');
-    makecounter(.68, 'counter', 'purpleBallCounter');
+    makecounter(.28, 'counter', 'greenBallCounter', themeGreen);
+    makecounter(.48, 'counter', 'orangeBallCounter', themeOrange);
+    makecounter(.68, 'counter', 'purpleBallCounter', themePurple);
 
     function updateCounter(buttonID, counterID) {
       let counterNum = 0;
@@ -157,7 +187,7 @@ function setup() {
         .html(counterNum);
       })
       select('#resetButton').mouseClicked(function(){
-        console.log('hello');
+        console.log('reset');
         counterNum = 0;
         select(counterID)
           .html(counterNum)
@@ -178,5 +208,6 @@ function draw() { //trying to get ball to show and move
   balls.forEach(function(i){
     i.show();
     i.move();
+    // i.checkBalls();
   });
 }
