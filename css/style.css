@@ -4,7 +4,7 @@ html, body {
   height: 100%;
   width: 100%; }
 
-#titleDiv {
+#titleDiv, #infoDiv {
   font-family: 'Press Start 2P', sans-serif;
 }
 

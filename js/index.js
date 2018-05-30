@@ -4,7 +4,7 @@ const themeGreen = 'rgba(58,180,169,1)';
 const themeOrange = 'rgba(253,121,29,0.7861519607843137)';
 const themePurple = 'rgba(128,69,252,1)'
 
-//declaring buttons, balls, and the array where the balls will be stored
+//declaring buttons, balls, and the array where the balls will be stored, and a background image
 
 let greenBallButton;
 let orangeBallButton;
@@ -14,6 +14,7 @@ let greenBall;
 let orangeBall;
 let purpleBall;
 let balls = [];
+let bg;
 
 //make ball class
 class Ball {
@@ -21,12 +22,14 @@ class Ball {
     this.x = random(width);
     this.y = random(height);
     this.r = random(5, 25);
-    this.fill = fill;
+    this.fill = fill;            //line 24 sets the fill to a fill argument which is set when a button is
+    this.yVel = random(-3, 3);  //clicked and when the balls hit each other
     this.xVel = random(-3, 3);
-    this.yVel = random(-3, 3);
   }
 
-  //check to see if a ball has hit a wall
+  //this sets the x position to the constructor + the x velocity
+  //and sets the y position to the constructor + the y velocity
+  //and runs the checkBalls() and checkWalls() functions
 
   move() {
   //this.xVel += xVel;
@@ -36,33 +39,38 @@ class Ball {
   this.checkBalls();
   }
 
-  checkBalls() {
-    // let otherBalls = balls.filter(function(i){
-    // !this;
-    // });
-    // console.log(this);
+  //this is a for loop that loops through all the balls in an array
+  //if the current ball doesn't equal itself
+  //then when half the current balls radius plus half the other balls radius is greater than their
+  //midpoints, a hit is made, and velocity is reversed
+  //I also have the balls change color when they hit each other
 
+  //Note: There is a weird edge case when the balls get stuck inside each other
+  //which I haven't been able to figure out
+
+  checkBalls() {
     for(this.i = 0; this.i < balls.length; this.i++){
       if(this !== balls[this.i]){
-      if( this.r/2+ balls[this.i].r/2 > dist(this.x, this.y, balls[this.i].x, balls[this.i].y)){
+      if( this.r/2 + balls[this.i].r/2 > dist(this.x, this.y, balls[this.i].x, balls[this.i].y)){
         console.log("hit");
-
+        this.xVel *= -1;
+        this.yVel *= -1;
+        // balls[this.i].xVel *= 1;
+        // balls[this.i].yVel *= -1;
+        if ((this.r/2+ balls[this.i].r/2 > dist(this.x, this.y, balls[this.i].x, balls[this.i].y)) && this.fill===themeGreen) {
+          balls[this.i].fill = themeOrange;
+        } else if ((this.r/2+ balls[this.i].r/2 > dist(this.x, this.y, balls[this.i].x, balls[this.i].y)) && this.fill===themeOrange) {
+          balls[this.i].fill = themePurple;
+        } else if ((this.r/2+ balls[this.i].r/2 > dist(this.x, this.y, balls[this.i].x, balls[this.i].y)) && this.fill===themePurple)
+          balls[this.i].fill = themeGreen;
+        }
       }
     }
-    }
-
-    // balls.forEach(function(i){
-    //   console.log(this);
-      // if (i === this && balls.length > 1) {
-      //
-      // } else {
-      //
-      //  if( this.r/2+ i.r/2 > dist(this.x, this.y, i.x, i.y)){
-        //   console.log('hit');
-        // }
-      // }
-    // });
   }
+
+  //if x is less than zero and greater than width,
+  //and y is less than zero and greater than height,
+  //reverse velocity
 
   checkWalls() {
    //check for walls
@@ -77,7 +85,7 @@ class Ball {
    }
  }
 
- //
+ //this is a method that shows the ball, and is run in draw
 
   show() {
   stroke(255);
@@ -89,6 +97,9 @@ class Ball {
 } //end class declaration
 
 function setup() {
+
+  //load background image
+  bg = loadImage("nyancat.jpg");
 
   //designing background div
   const backgroundDiv = createDiv();
@@ -138,11 +149,23 @@ function setup() {
     .style('-webkit-text-fill-color', 'transparent')
     .style('-webkit-text-stroke', '1px black')
     .style('-moz-text-stroke', '1px black')
-    .position(.05 * windowWidth, .5 * windowHeight)
+    .position(.05 * windowWidth, .3 * windowHeight)
     .html('Ball <br /> Pit')
     .id('titleDiv');
 
-    //instantiating new ball when analogous button is clicked
+  const infoDiv = createDiv()
+      .style('font-size', '1.5em')
+      .style('text-align', 'center')
+      .style('background', `linear-gradient(270deg, ${themeOrange} 0%, ${themePurple} 100%)`)
+      .style('-webkit-background-clip', 'text')
+      .style('-webkit-text-fill-color', 'transparent')
+      .style('-webkit-text-stroke', '1px black')
+      .style('-moz-text-stroke', '1px black')
+      .position(.05 * windowWidth, .5 * windowHeight)
+      .html('Press any <br> key <br> to show <br> Nyancat')
+      .id('infoDiv');
+
+  //instantiating new ball when analogous button is clicked and pushing it to an array
 
     function makeBallwhenClicked(ball, buttonID, color) {
       select(buttonID).mouseClicked(function(){
@@ -201,13 +224,38 @@ function setup() {
 
 } //end setup
 
-function draw() { //trying to get ball to show and move
+function draw() {
 
-  background(180);
+  //if any key is pressed, have background show nyancat
+  //otherwise, color it gray
+
+  if (keyIsPressed === true) {
+    background(bg);
+  } else {
+    background(180);
+  }
+
+  //custom shape (Pshape does not exist in P5.js, this is its closest equivalent)
+
+  function drawShape(x, y) {
+    push();
+    translate(x, y)
+    beginShape();
+    vertex(92, 244);
+    quadraticVertex(50, 222, 36, 322);
+    bezierVertex(92, 344, 40, 189, 94, 335);
+    endShape(CLOSE)
+    pop();
+  }
+
+  drawShape();
+  drawShape(width * .5, height * .25);
+  drawShape(width * .25, height * .25);
+
+  //for each ball in the array, run the show() and move() functions
 
   balls.forEach(function(i){
     i.show();
     i.move();
-    // i.checkBalls();
   });
 }
