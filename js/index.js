@@ -139,7 +139,7 @@ function setup() {
 
   select('#resetButton').position(.8 * windowWidth, .5 * windowHeight);
 
-  //creating titleDiv
+  //creating titleDiv showing Ballpit text
 
   const titleDiv = createDiv()
     .style('font-size', '3em')
@@ -152,6 +152,8 @@ function setup() {
     .position(.05 * windowWidth, .3 * windowHeight)
     .html('Ball <br /> Pit')
     .id('titleDiv');
+
+  //creating info div about NyanCat
 
   const infoDiv = createDiv()
       .style('font-size', '1.5em')
