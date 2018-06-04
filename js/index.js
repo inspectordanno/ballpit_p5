@@ -51,22 +51,24 @@ class Ball {
   checkBalls() {
     for(this.i = 0; this.i < balls.length; this.i++){
       if(this !== balls[this.i]){
-      if( this.r/2 + balls[this.i].r/2 > dist(this.x, this.y, balls[this.i].x, balls[this.i].y)){
-        console.log("hit");
-        this.xVel *= -1;
-        this.yVel *= -1;
-        // balls[this.i].xVel *= 1;
-        // balls[this.i].yVel *= -1;
-        if ((this.r/2+ balls[this.i].r/2 > dist(this.x, this.y, balls[this.i].x, balls[this.i].y)) && this.fill===themeGreen) {
-          balls[this.i].fill = themeOrange;
-        } else if ((this.r/2+ balls[this.i].r/2 > dist(this.x, this.y, balls[this.i].x, balls[this.i].y)) && this.fill===themeOrange) {
-          balls[this.i].fill = themePurple;
-        } else if ((this.r/2+ balls[this.i].r/2 > dist(this.x, this.y, balls[this.i].x, balls[this.i].y)) && this.fill===themePurple)
-          balls[this.i].fill = themeGreen;
+      if( this.r/2 + balls[this.i].r/2 > 1 + dist(this.x, this.y, balls[this.i].x, balls[this.i].y)){
+        if((this.xVel / Math.abs(this.xVel) != balls[this.i].xVel / Math.abs(balls[this.i].xVel)) &&
+        (this.yVel / Math.abs(this.yVel) != balls[this.i].yVel / Math.abs(balls[this.i].yVel))) { 
+          console.log("hit");
+          this.xVel *= -1;
+          this.yVel *= -1;
+          if (this.fill === themeGreen) {
+            balls[this.i].fill = themeOrange;
+          } else if (this.fill === themeOrange) {
+            balls[this.i].fill = themePurple;
+          } else if (this.fill === themePurple) {
+            balls[this.i].fill = themeGreen;
+          }
         }
       }
     }
   }
+}
 
   //if x is less than zero and greater than width,
   //and y is less than zero and greater than height,
