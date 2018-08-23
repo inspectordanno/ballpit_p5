@@ -144,7 +144,7 @@ function setup() {
   //creating titleDiv showing Ballpit text
 
   const titleDiv = createDiv()
-    .style('font-size', '3em')
+    .style('font-size', '3vw')
     .style('text-align', 'center')
     .style('background', `linear-gradient(270deg, ${themeOrange} 0%, ${themePurple} 100%)`)
     .style('-webkit-background-clip', 'text')
@@ -158,7 +158,7 @@ function setup() {
   //creating info div about NyanCat
 
   const infoDiv = createDiv()
-      .style('font-size', '1.5em')
+      .style('font-size', '1.5vw')
       .style('text-align', 'center')
       .style('background', `linear-gradient(270deg, ${themeOrange} 0%, ${themePurple} 100%)`)
       .style('-webkit-background-clip', 'text')
