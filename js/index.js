@@ -238,24 +238,7 @@ function draw() {
   } else {
     background(180);
   }
-
-  //custom shape (Pshape does not exist in P5.js, this is its closest equivalent)
-
-  function drawShape(x, y) {
-    push();
-    translate(x, y)
-    beginShape();
-    vertex(92, 244);
-    quadraticVertex(50, 222, 36, 322);
-    bezierVertex(92, 344, 40, 189, 94, 335);
-    endShape(CLOSE)
-    pop();
-  }
-
-  drawShape();
-  drawShape(width * .5, height * .25);
-  drawShape(width * .25, height * .25);
-
+  
   //for each ball in the array, run the show() and move() functions
 
   balls.forEach(function(i){
